@@ -10,7 +10,11 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     define: {
       // This ensures process.env.API_KEY is replaced with the actual string value during build
-      'process.env.API_KEY': JSON.stringify(env.API_KEY)
+      'process.env.API_KEY': JSON.stringify(env.API_KEY),
+      // Polyfill process for libraries that might reference it
+      'process.env': JSON.stringify({}), 
+      // Prevent "process is not defined" error in browser
+      'process': 'window.process || {}'
     },
     build: {
       outDir: 'dist',

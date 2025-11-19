@@ -1,10 +1,25 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { DaySchedule } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+let aiClient: GoogleGenAI | null = null;
+
+const getAiClient = () => {
+  if (aiClient) return aiClient;
+  
+  const apiKey = process.env.API_KEY;
+  if (!apiKey) {
+    console.warn("API Key is missing. Please set VITE_API_KEY or API_KEY in your environment.");
+    throw new Error("API Key is not configured.");
+  }
+  
+  aiClient = new GoogleGenAI({ apiKey });
+  return aiClient;
+};
 
 export const parseTimetableFromImage = async (base64Image: string): Promise<DaySchedule[]> => {
   try {
+    const ai = getAiClient();
+    
     // Extract mime type if available
     let mimeType = 'image/jpeg';
     const mimeMatch = base64Image.match(/^data:(image\/[a-zA-Z+]+);base64,/);
@@ -21,7 +36,7 @@ export const parseTimetableFromImage = async (base64Image: string): Promise<DayS
         parts: [
           {
             inlineData: {
-              mimeType: mimeType, // Assuming jpeg/png, API is flexible
+              mimeType: mimeType,
               data: cleanBase64
             }
           },
@@ -70,12 +85,14 @@ export const parseTimetableFromImage = async (base64Image: string): Promise<DayS
 
 export const getStudyTip = async (subject: string): Promise<string> => {
     try {
+        const ai = getAiClient();
         const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash',
             contents: `Give me a short, punchy, one-sentence study tip for a college student studying "${subject}".`,
         });
         return response.text || "Stay consistent and practice daily!";
     } catch (e) {
+        console.error("Failed to get study tip", e);
         return "Focus on understanding the concepts.";
     }
 }

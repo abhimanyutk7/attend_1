@@ -1,9 +1,8 @@
 
-const CACHE_NAME = 'campus-mate-v1';
+const CACHE_NAME = 'campus-mate-v2';
 const urlsToCache = [
   '/',
   '/index.html',
-  '/index.tsx',
   '/manifest.json',
   '/favicon.ico',
   'https://cdn.tailwindcss.com',
