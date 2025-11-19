@@ -5,6 +5,13 @@ const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const parseTimetableFromImage = async (base64Image: string): Promise<DaySchedule[]> => {
   try {
+    // Extract mime type if available
+    let mimeType = 'image/jpeg';
+    const mimeMatch = base64Image.match(/^data:(image\/[a-zA-Z+]+);base64,/);
+    if (mimeMatch) {
+      mimeType = mimeMatch[1];
+    }
+
     // Remove header if present (e.g., "data:image/png;base64,")
     const cleanBase64 = base64Image.split(',')[1] || base64Image;
 
@@ -14,7 +21,7 @@ export const parseTimetableFromImage = async (base64Image: string): Promise<DayS
         parts: [
           {
             inlineData: {
-              mimeType: 'image/jpeg', // Assuming jpeg/png, API is flexible
+              mimeType: mimeType, // Assuming jpeg/png, API is flexible
               data: cleanBase64
             }
           },
