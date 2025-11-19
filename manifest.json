@@ -1,0 +1,17 @@
+{
+  "name": "CampusMate India",
+  "short_name": "CampusMate",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4f46e5",
+  "description": "The ultimate college companion for Indian students.",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/265/265674.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

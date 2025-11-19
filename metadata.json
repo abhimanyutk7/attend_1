@@ -1,0 +1,7 @@
+{
+  "name": "CampusMate India",
+  "description": "The ultimate college companion for Indian students. Track attendance (75% rule!), calculate GPA, manage assignments, and digitize your timetable from a photo using AI.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
